@@ -3,9 +3,12 @@
 # Project created by QtCreator 2013-10-10T17:57:01
 #
 #-------------------------------------------------
-unix: QWT_ROOT = /usr/local/qwt-6.1.0
-win32: QWT_ROOT = C:/Qt/Qwt-6.1.0
-include ( $${QWT_ROOT}/features/qwt.prf )
+
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../../../../Qt/Qwt-6.1.0-rc3/lib/ -lqwt
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../../../../Qt/Qwt-6.1.0-rc3/lib/ -lqwtd
+
+INCLUDEPATH += $$PWD/../../../../../Qt/Qwt-6.1.0-rc3/include
+DEPENDPATH += $$PWD/../../../../../Qt/Qwt-6.1.0-rc3/include
 
 QT       += core gui
 

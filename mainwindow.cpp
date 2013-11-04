@@ -16,7 +16,7 @@ MainWindow::MainWindow(QWidget *parent) :
     initTauComboBox();
     initImageODESystem();
     initArrays();
-    setWindowTitle("Решение системы ОДУ методом Эйлера.");
+    setWindowTitle(tr("Решение системы ОДУ методом Эйлера."));
     connect(picker, SIGNAL(selected(const QPointF&)),
             this, SLOT(fixClickedPoint(const QPointF&)));
 }
@@ -63,7 +63,7 @@ void MainWindow::initTauComboBox() {
 }
 
 void MainWindow::initQwtPlot() {
-    ui->qwtPlot->setTitle("Графики траекторий");
+    ui->qwtPlot->setTitle(tr("Графики траекторий"));
     ui->qwtPlot->setAxisScale(QwtPlot::xBottom,
                               ui->aDoubleSpinBox->value(),
                               ui->bDoubleSpinBox->value());
@@ -158,10 +158,10 @@ void MainWindow::on_clearButton_clicked() {
 }
 
 void MainWindow::on_helpButton_clicked() {
-    QMessageBox::about(this, "Справка", "Это приложение позволяет решать систему ОДУ методом Эйлера.\n"
+    QMessageBox::about(this, tr("Справка"), tr("Это приложение позволяет решать систему ОДУ методом Эйлера.\n"
                              "Оно рисует траектории численных решений в зависимости от того, какую Вы выбирете "
                              "начальную точку, параметры функций и размеры рабочей области.\n"
-                             "© ЯрГУ им. П. Г. Демидова, факультет ИВТ, группа ИВТ-41СО, Щитов Иван");
+                             "© ЯрГУ им. П. Г. Демидова, факультет ИВТ, группа ИВТ-41СО, Щитов Иван"));
 }
 
 void MainWindow::setEnabledSpinBoxes(bool isEnabled) {
