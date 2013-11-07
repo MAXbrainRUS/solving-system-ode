@@ -28,10 +28,15 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
+    // Массивы для хранения точек решения (plus и minus - направления от начальной точки)
     double **xnPlus, **xnMinus, **ynPlus, **ynMinus;
+    // Координаты начальной точки
     double x0, y0;
+    // Количество отрисованных траекторий
     int countTraj;
+    // Переменная для отрисовки кривой
     QwtPlotCurve *plusCurve, *minusCurve;
+    // Передает координаты клика в области отрисовки
     QwtPlotPicker *picker;
 
 private:
@@ -43,8 +48,10 @@ private:
     void initImageODESystem();
     void setEnabledSpinBoxes(bool isEnabled);
     void displayTrajectory(int idTraj);
+    // Функции, для которых строится и рисуется примерное решение
     double func1(double xn, double yn);
-    double func2(double xn);
+    double func2(double xn, double yn);
+    // Вычисление решения и занесение точек решения в массивы
     void buildTrajectory(int idTraj);
 };
 

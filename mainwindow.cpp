@@ -2,8 +2,8 @@
 #include "ui_mainwindow.h"
 #include <QMessageBox>
 
-const int NMAX = 10000;
-const int M = 500;
+const int NMAX = 10000; // Максимальное число шагов (n - число шагов)
+const int M = 500; // Максимальное количество траекторий решения
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -42,18 +42,14 @@ void MainWindow::initArrays() {
     xnMinus = new double* [M];
     ynPlus = new double* [M];
     ynMinus = new double* [M];
-    for (int i = 0; i < M; i++) {
+    for (int i = 0; i < M; i++)
         xnPlus[i] = new double [NMAX];
-    }
-    for (int i = 0; i < M; i++) {
+    for (int i = 0; i < M; i++)
         xnMinus[i] = new double [NMAX];
-    }
-    for (int i = 0; i < M; i++) {
+    for (int i = 0; i < M; i++)
         ynPlus[i] = new double [NMAX];
-    }
-    for (int i = 0; i < M; i++) {
+    for (int i = 0; i < M; i++)
         ynMinus[i] = new double [NMAX];
-    }
 }
 
 void MainWindow::initTauComboBox() {
@@ -86,8 +82,10 @@ void MainWindow::initCurves() {
     QPen minusPen = QPen(QColor(Qt::blue));
     plusCurve = new QwtPlotCurve();
     minusCurve = new QwtPlotCurve();
+    // Что это?
     plusCurve->setRenderHint(QwtPlotItem::RenderAntialiased);
     minusCurve->setRenderHint(QwtPlotItem::RenderAntialiased);
+
     plusCurve->setPen(plusPen);
     minusCurve->setPen(minusPen);
     plusCurve->attach(ui->qwtPlot);
@@ -96,7 +94,7 @@ void MainWindow::initCurves() {
 
 void MainWindow::initImageODESystem() {
     QImage *image = new QImage;
-    image->load("://formula.png");
+    image->load("://formula.gif");
     ui->imgLabel->setPixmap(QPixmap::fromImage(*image));
 }
 
@@ -106,25 +104,26 @@ double MainWindow::func1(double xn, double yn) {
             + ui->epsilonDoubleSpinBox->value();
 }
 
-double MainWindow::func2(double xn) {
+double MainWindow::func2(double xn, double yn) {
     return ui->lyambdaDoubleSpinBox->value() * xn
+            + ui->etaDoubleSpinBox->value() * yn
             + ui->fiDoubleSpinBox->value();
 }
 
 void MainWindow::buildTrajectory(int idTraj) {
     for (int i = 1; i <= ui->nDoubleSpinBox->value(); i++) {
-        xnPlus[idTraj][i] = xnPlus[idTraj][i -1]
+        xnPlus[idTraj][i] = xnPlus[idTraj][i - 1]
                 + ui->tauComboBox->currentText().toDouble()
-                * func1(xnPlus[idTraj][i -1], ynPlus[idTraj][i - 1]);
-        xnMinus[idTraj][i] = xnMinus[idTraj][i -1]
+                * func1(xnPlus[idTraj][i - 1], ynPlus[idTraj][i - 1]);
+        xnMinus[idTraj][i] = xnMinus[idTraj][i - 1]
                 - ui->tauComboBox->currentText().toDouble()
-                * func1(xnMinus[idTraj][i -1], ynMinus[idTraj][i - 1]);
-        ynPlus[idTraj][i] = ynPlus[idTraj][i -1]
+                * func1(xnMinus[idTraj][i - 1], ynMinus[idTraj][i - 1]);
+        ynPlus[idTraj][i] = ynPlus[idTraj][i - 1]
                 + ui->tauComboBox->currentText().toDouble()
-                * func2(xnPlus[idTraj][i -1]);
-        ynMinus[idTraj][i] = ynMinus[idTraj][i -1]
+                * func2(xnPlus[idTraj][i - 1], ynPlus[idTraj][i - 1]);
+        ynMinus[idTraj][i] = ynMinus[idTraj][i - 1]
                 - ui->tauComboBox->currentText().toDouble()
-                * func2(xnMinus[idTraj][i -1]);
+                * func2(xnMinus[idTraj][i - 1], ynMinus[idTraj][i - 1]);
     }
 }
 
@@ -161,7 +160,7 @@ void MainWindow::on_helpButton_clicked() {
     QMessageBox::about(this, tr("Справка"), tr("Это приложение позволяет решать систему ОДУ методом Эйлера.\n"
                              "Оно рисует траектории численных решений в зависимости от того, какую Вы выбирете "
                              "начальную точку, параметры функций и размеры рабочей области.\n"
-                             "© ЯрГУ им. П. Г. Демидова, факультет ИВТ, группа ИВТ-41СО, Щитов Иван"));
+                             "© ЯрГУ им. П. Г. Демидова, факультет ИВТ, группа ИВТ-41СО, Сыманович Максим"));
 }
 
 void MainWindow::setEnabledSpinBoxes(bool isEnabled) {
@@ -172,4 +171,5 @@ void MainWindow::setEnabledSpinBoxes(bool isEnabled) {
     ui->fiDoubleSpinBox->setEnabled(isEnabled);
     ui->nDoubleSpinBox->setEnabled(isEnabled);
     ui->tauComboBox->setEnabled(isEnabled);
+    ui->etaDoubleSpinBox->setEnabled(isEnabled);
 }

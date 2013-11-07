@@ -229,14 +229,14 @@
           </property>
          </widget>
         </item>
-        <item row="6" column="0">
+        <item row="7" column="0">
          <widget class="QLabel" name="fiLabel">
           <property name="text">
            <string>φ</string>
           </property>
          </widget>
         </item>
-        <item row="6" column="1">
+        <item row="7" column="1">
          <widget class="QDoubleSpinBox" name="fiDoubleSpinBox">
           <property name="minimum">
            <double>-100.000000000000000</double>
@@ -246,6 +246,20 @@
           </property>
           <property name="value">
            <double>1.000000000000000</double>
+          </property>
+         </widget>
+        </item>
+        <item row="6" column="0">
+         <widget class="QLabel" name="etaLabel">
+          <property name="text">
+           <string>η</string>
+          </property>
+         </widget>
+        </item>
+        <item row="6" column="1">
+         <widget class="QDoubleSpinBox" name="etaDoubleSpinBox">
+          <property name="value">
+           <double>1.500000000000000</double>
           </property>
          </widget>
         </item>
